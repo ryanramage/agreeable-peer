@@ -1,20 +1,25 @@
 Agreeable Peer
 ==============
 
-Simplify the rpc agreement between [agreeable](https://github.com/ryanramage/agreeable) friends
+Easy RPC using an agreement between [agreeable](https://github.com/ryanramage/agreeable) peers. A [🍐](https://docs.pears.com) project.
 
- - Validates input and output data (runtime type safety)
- - Compile type checking (JSDoc and ts compatable)
- - reduce boilerplate p2p code
- - allows growing an ecosystem of trusting p2p rpc peers
+This project is a helper to create and consume remote services over a p2p network. It is built over strong foundations of HyperDHT, protomux and jsonrpc-mux, but makes
+using them very easy, and should help web developers convert over to p2p.
+
+Here are a few other reasons to use it:
+
+ - Validates input and output data for both peers at runtime (runtime type safety)
+ - Compile type checking to help coding (using JSDoc and ts compatable)
+ - reduces boilerplate p2p code
+ - allows for growing an ecosystem of trusting p2p rpc peers
  - dynamic UI for testing and form submission via [agreeable-ui](https://github.com/ryanramage/agreeable-ui)
 
-The following example can be run in the demo folder of this project
+The following example can be run in the [demo folder](https://github.com/ryanramage/agreeable-peer/tree/master/demo) of this project
 
 Host an agreeable RPC
 =====================
 
-in a working directory, please use npm to install the following two dependencies
+in your working directory, please use npm to install the following two dependencies
 
 ```
 npm i agreeable agreeable-peer
@@ -43,7 +48,7 @@ export const GenerateNickname = z.function().args(z.object({
   last: z.string().describe('the last name')
 })).returns(z.promise(z.string()))
 
-// descrive the api, using the functions as routes
+// describe the api, using the functions as routes
 const api = { 
   role: 'exampleRpc', 
   version: '1.0.0',
@@ -118,7 +123,7 @@ or visit the github [agreeable-ui](https://github.com/ryanramage/agreeable-ui) a
 and then paste the public key of the service into the UI. Once it connects, you can download the agreement.mjs file that way from your peer
 
 
-code the client
+code the caller
 ---------------
 
 This small example, the client uses the type checking of the agreement. Again this is balanced to use the zod infer into jsdocs, and agreeable check the types
@@ -150,7 +155,13 @@ caller.destroy()
 
 ```
 
-run the client
+Note: The @ts-expect-error annotation is to remove one small compile time error with the destructring the proxy assignment. 
+It is shown here for completeness as a way to have no warnings in your editor. 
+
+run the caller
+--------------
+
+Now we run the client, passing in the host public key to connect to. 
 
 ```
 node client.mjs 3e32bb2d191316d952ae77439f7ec00a5c4fea8a01953b84d1b4eee36173e1ca
