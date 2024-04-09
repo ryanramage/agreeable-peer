@@ -111,6 +111,8 @@ Agreeable-UI
 ```
 pear run pear://qrxbzxyqup1egwjnrmp7fcikk31nekecn43xerq65iq3gjxiaury
 ```
+or visit the github [agreeable-ui](https://github.com/ryanramage/agreeable-ui) and pear dev it
+
 
 and then paste the public key of the service into the UI. Once it connects, you can download the agreement.mjs file that way from your peer
 
