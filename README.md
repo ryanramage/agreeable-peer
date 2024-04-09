@@ -7,6 +7,7 @@ Simplify the rpc agreement between [agreeable](https://github.com/ryanramage/agr
  - Compile type checking (JSDoc and ts compatable)
  - reduce boilerplate p2p code
  - allows growing an ecosystem of trusting p2p rpc peers
+ - dynamic UI for testing and form submission via [agreeable-ui](https://github.com/ryanramage/agreeable-ui)
 
 The following example can be run in the demo folder of this project
 
