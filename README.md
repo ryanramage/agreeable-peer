@@ -8,8 +8,16 @@ Simplify the rpc agreement between [agreeable](https://github.com/ryanramage/agr
  - reduce boilerplate p2p code
  - allows growing an ecosystem of trusting p2p rpc peers
 
+The following example can be run in the demo folder of this project
+
 Host an agreeable RPC
 =====================
+
+in a working directory, please use npm to install the following two dependencies
+
+```
+npm i agreeable agreeable-peer
+```
 
 Create an agreement
 -------------------
