@@ -1,0 +1,31 @@
+{
+  "name": "agreeable-peer",
+  "version": "1.0.0",
+  "description": "simplify the rpc agreement between agreeable friends",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanramage/agreeable-friends.git"
+  },
+  "keywords": [
+    "agreeable",
+    "rpc",
+    "p2p"
+  ],
+  "author": "Ryan Ramage",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanramage/agreeable-friends/issues"
+  },
+  "homepage": "https://github.com/ryanramage/agreeable-friends#readme",
+  "dependencies": {
+    "agreeable": "^1.4.1",
+    "b4a": "^1.6.6",
+    "hyperdht": "^6.14.0",
+    "jsonrpc-mux": "^1.1.1",
+    "protomux": "^3.5.1"
+  }
+}
