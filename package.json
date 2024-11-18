@@ -1,6 +1,6 @@
 {
   "name": "agreeable-peer",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "simplify the rpc agreement between agreeable friends",
   "main": "index.mjs",
   "scripts": {
