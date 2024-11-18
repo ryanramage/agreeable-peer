@@ -31,7 +31,7 @@ export function seedFromArgv () {
 export function Caller (peerKey, setHeaders) {
   if (!setHeaders) setHeaders = () => {}
   this.setHeaders = setHeaders
-  this.publicKey = hi.decode(peerKey)
+  this.publicKey = hie.decode(peerKey)
   this.node = new DHT()
   this.conn = this.node.connect(this.publicKey)
   this.framed = new Channel(new Protomux(this.conn))
