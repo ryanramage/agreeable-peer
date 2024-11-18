@@ -1,4 +1,4 @@
-import b4a from 'b4a'
+import hie from 'hypercore-id-encoding'
 import DHT from 'hyperdht'
 import Protomux from 'protomux'
 import Channel from 'jsonrpc-mux'
@@ -8,15 +8,17 @@ export { enact, loadAgreement, z } from 'agreeable'
 export async function host (agreement, implementation, opts) {
   if (!opts) opts = {}
   if (!opts.validator) opts.validator = async () => {}
-  const dht = new DHT(opts.dhtOpts)
-  const seedBuf = opts.seed ? b4a.from(opts.seed, 'hex') : null
+  const dht = opts.dht? opts.dht : new DHT(opts.dhtOpts)
+  const seedBuf = opts.seed ? hie.decode(opts.seed) : null
   const keyPair = DHT.keyPair(seedBuf)
-  const connect = c => enact(new Channel(new Protomux(c)), agreement, implementation, opts.validator)
+  let channel = null
+  const connect = c => {
+    channel = new Channel(new Protomux(c))
+    enact(channel, agreement, implementation, opts.validator)
+  }
   const server = dht.createServer(connect)
-
   await server.listen(keyPair)
-  console.log('listening on:', b4a.toString(keyPair.publicKey, 'hex'))
-  return { dht, keyPair, server }
+  return { dht, keyPair, server, channel }
 }
 
 export function seedFromArgv () {
@@ -29,7 +31,7 @@ export function seedFromArgv () {
 export function Caller (peerKey, setHeaders) {
   if (!setHeaders) setHeaders = () => {}
   this.setHeaders = setHeaders
-  this.publicKey = b4a.from(peerKey, 'hex')
+  this.publicKey = hi.decode(peerKey)
   this.node = new DHT()
   this.conn = this.node.connect(this.publicKey)
   this.framed = new Channel(new Protomux(this.conn))
