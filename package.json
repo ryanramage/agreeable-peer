@@ -1,14 +1,14 @@
 {
-  "name": "agreeable-peer",
+  "name": "@agree-able/rpc",
   "version": "2.0.1",
-  "description": "simplify the rpc agreement between agreeable friends",
+  "description": "create and use rpc using p2p",
   "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ryanramage/agreeable-friends.git"
+    "url": "git+https://github.com/agree-able/rpc.git"
   },
   "keywords": [
     "agreeable",
@@ -18,11 +18,11 @@
   "author": "Ryan Ramage",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ryanramage/agreeable-friends/issues"
+    "url": "https://github.com/agree-able/rpc/issues"
   },
-  "homepage": "https://github.com/ryanramage/agreeable-friends#readme",
+  "homepage": "https://github.com/agree-able/rpc#readme",
   "dependencies": {
-    "agreeable": "^1.4.1",
+    "@agree-able/contract": "^1.4.1",
     "hypercore-id-encoding": "^1.3.0",
     "hyperdht": "^6.14.0",
     "jsonrpc-mux": "^1.1.1",

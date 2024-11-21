@@ -1,5 +1,5 @@
 // @ts-check
-import { loadAgreement, host, z }  from 'agreeable-peer'
+import { loadAgreement, host, z }  from '@agree-able/rpc'
 import { AddTwo, Ping, GenerateNickname } from './agreement.mjs'
 
 /** @type { z.infer<AddTwo> } addTwo */

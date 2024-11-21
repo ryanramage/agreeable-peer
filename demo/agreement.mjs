@@ -1,4 +1,4 @@
-import { z, addRoute } from 'agreeable'
+import { z, addRoute } from '@agree-able/contract'
 
 // Explicit zod types
 export const AddTwo = z.function().args(z.object({

@@ -1,5 +1,5 @@
 // @ts-check
-import { z, Caller } from 'agreeable-peer'
+import { z, Caller } from '@agree-able/rpc'
 import agreement, { AddTwo, Ping, GenerateNickname } from './agreement.mjs';
 
 const peerKey = process.argv[2]

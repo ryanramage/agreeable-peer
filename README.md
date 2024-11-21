@@ -1,7 +1,7 @@
-Agreeable Peer
+Agreeable RPC 
 ==============
 
-Easy RPC using an agreement between [agreeable](https://github.com/ryanramage/agreeable) peers. A [🍐](https://docs.pears.com) project.
+Easy RPC using a [contract](https://github.com/agree-able/contract). A [🍐](https://docs.pears.com) project.
 
 This project is a helper to create and consume remote services over a p2p network. It is built over strong foundations of HyperDHT, protomux and jsonrpc-mux, but makes
 using them very easy, and should help web developers convert over to p2p.
@@ -12,9 +12,9 @@ Here are a few other reasons to use it:
  - Compile type checking to help coding (using JSDoc and ts compatable)
  - reduces boilerplate p2p code
  - allows for growing an ecosystem of trusting p2p rpc peers
- - dynamic UI for testing and form submission via [agreeable-ui](https://github.com/ryanramage/agreeable-ui)
+ - dynamic UI for testing and form submission via [agreeable-ui](https://github.com/agree-able/ui)
 
-The following example can be run in the [demo folder](https://github.com/ryanramage/agreeable-peer/tree/master/demo) of this project
+The following example can be run in the [demo folder](https://github.com/agree-able/rpc/tree/master/demo) of this project
 
 Host an agreeable RPC
 =====================
@@ -22,7 +22,7 @@ Host an agreeable RPC
 in your working directory, please use npm to install the following two dependencies
 
 ```
-npm i agreeable agreeable-peer
+npm i @agree-able/contract @agreeable/rpc
 ```
 
 Create an agreement
@@ -33,7 +33,7 @@ best programmatic descriptive power with strong jsdoc infer compatablility.
 
 agreement.mjs
 ```
-import { z, addRoute } from 'agreeable'
+import { z, addRoute } from '@agree-able/contract' // please use the contract module as it makes this file reusable for all. less dependencies
 
 // define the shape of the functions available
 export const AddTwo = z.function().args(z.object({
@@ -73,7 +73,7 @@ if they dont match the agreement.
 index.mjs
 ```
 // @ts-check
-import { loadAgreement, host, z }  from 'agreeable-peer'
+import { loadAgreement, host, z }  from '@agree-able/rpc'
 import { AddTwo, Ping, GenerateNickname } from './agreement.mjs'
 
 /** @type { z.infer<AddTwo> } addTwo */
@@ -117,7 +117,7 @@ Agreeable-UI
 ```
 pear run pear://qrxbzxyqup1egwjnrmp7fcikk31nekecn43xerq65iq3gjxiaury
 ```
-or visit the github [agreeable-ui](https://github.com/ryanramage/agreeable-ui) and pear dev it
+or visit the github [agreeable-ui](https://github.com/agree-able/ui) and pear dev it
 
 
 and then paste the public key of the service into the UI. Once it connects, you can download the agreement.mjs file that way from your peer
@@ -133,7 +133,7 @@ going to and from the host.
 client.mjs
 ```
 // @ts-check
-import { z, Caller } from 'agreeable-peer'
+import { z, Caller } from '@agree-able/rpc'
 import agreement, { AddTwo, Ping, GenerateNickname } from './agreement.mjs';
 
 const peerKey = process.argv[2]
