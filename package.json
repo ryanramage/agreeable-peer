@@ -1,6 +1,6 @@
 {
   "name": "@agree-able/rpc",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "create and use rpc using p2p",
   "main": "index.mjs",
   "scripts": {
