@@ -2,7 +2,7 @@ import hie from 'hypercore-id-encoding'
 import DHT from 'hyperdht'
 import Protomux from 'protomux'
 import Channel from 'jsonrpc-mux'
-import { enact, proxy } from '@agreeable/contract'
+import { enact, proxy } from '@agree-able/contract'
 export { enact, loadAgreement, z } from '@agree-able/contract'
 
 export async function host (agreement, implementation, opts) {
