@@ -1,172 +1,102 @@
-Agreeable RPC 
-==============
+# Agreeable RPC
 
-Easy RPC using a [contract](https://github.com/agree-able/contract). A [🍐](https://docs.pears.com) project.
+🤝 Type-safe P2P RPC that just works. A [🍐](https://docs.pears.com) project.
 
-This project is a helper to create and consume remote services over a p2p network. It is built over strong foundations of HyperDHT, protomux and jsonrpc-mux, but makes
-using them very easy, and should help web developers convert over to p2p.
+## Why Agreeable RPC?
 
-Here are a few other reasons to use it:
+- **Type Safety**: Full TypeScript/JSDoc support with runtime validation
+- **Simple API**: Build P2P services with minimal boilerplate
+- **Developer Experience**: Interactive testing UI included
+- **Trust**: Define clear contracts between peers
 
- - Validates input and output data for both peers at runtime (runtime type safety)
- - Compile type checking to help coding (using JSDoc and ts compatable)
- - reduces boilerplate p2p code
- - allows for growing an ecosystem of trusting p2p rpc peers
- - dynamic UI for testing and form submission via [agreeable-ui](https://github.com/agree-able/ui)
+## Quick Start
 
-The following example can be run in the [demo folder](https://github.com/agree-able/rpc/tree/master/demo) of this project
+### 1. Install
 
-Host an agreeable RPC
-=====================
-
-in your working directory, please use npm to install the following two dependencies
-
-```
+```bash
 npm i @agree-able/contract @agreeable/rpc
 ```
 
-Create an agreement
--------------------
+### 2. Define Your API (agreement.mjs)
 
-Here is a simple example of an agreeable compatable agreement. [Zod](https://zod.dev/) functions have been carefully chosen to provide the 
-best programmatic descriptive power with strong jsdoc infer compatablility. 
+```js
+import { z, addRoute } from '@agree-able/contract'
 
-agreement.mjs
-```
-import { z, addRoute } from '@agree-able/contract' // please use the contract module as it makes this file reusable for all. less dependencies
+// Define your functions with Zod
+export const AddTwo = z.function()
+  .args(z.object({
+    a: z.number(),
+    b: z.number()
+  }))
+  .returns(z.promise(z.number()))
 
-// define the shape of the functions available
-export const AddTwo = z.function().args(z.object({
-  a: z.number().describe('the first number'),
-  b: z.number().describe('the second number')
-})).returns(z.promise(z.number().describe('the sum of a and b')))
-
-export const Ping = z.function().args().returns(z.promise())
-
-export const GenerateNickname = z.function().args(z.object({
-  first: z.string().describe('the first name'),
-  last: z.string().describe('the last name')
-})).returns(z.promise(z.string()))
-
-// describe the api, using the functions as routes
-const api = { 
-  role: 'exampleRpc', 
+// Create the API contract
+export default {
+  role: 'calculator',
   version: '1.0.0',
-  description: 'a simple example api',
   routes: {
-    addTwo: addRoute(AddTwo),
-    ping: addRoute(Ping),
-    generateNickname: addRoute(GenerateNickname)
+    addTwo: addRoute(AddTwo)
   }
 }
-export default api 
-
 ```
 
-Enact the agreement
--------------------
+### 3. Implement the Server (server.mjs)
 
-Here we provide in implementation of the agreement. Notice the type checking we get from jsdocs that will provide compile time
-information using zod infer and jsdoc types. At runtime any params coming into the implementation will also be rejected back to the client
-if they dont match the agreement.
+```js
+import { loadAgreement, host } from '@agree-able/rpc'
 
-index.mjs
-```
-// @ts-check
-import { loadAgreement, host, z }  from '@agree-able/rpc'
-import { AddTwo, Ping, GenerateNickname } from './agreement.mjs'
-
-/** @type { z.infer<AddTwo> } addTwo */
+// Implement your functions
 const addTwo = async ({a, b}) => a + b
-   
-/** @type { z.infer<Ping> } ping */
-const ping = async () => console.log('pinged!')
 
-/** @type { z.infer<GenerateNickname> } generateNickname */
-const generateNickname = async ({first}) => `silly ${first}`
-
-host(await loadAgreement('./agreement.mjs', import.meta.url), { 
-  addTwo, ping, generateNickname 
-})
-
+// Start the server
+host(await loadAgreement('./agreement.mjs', import.meta.url), { addTwo })
 ```
 
-Run the peer 
-------------
+### 4. Create the Client (client.mjs)
 
-With the agreement in place, you can now run the peer. Simply run it in node (or bare/pear) and get the public key.
-
-```
-node index.mjs
-listening on: 3e32bb2d191316d952ae77439f7ec00a5c4fea8a01953b84d1b4eee36173e1ca
-```
-
-Call an agreeable RPC
-=====================
-
-Now lets see what the client needs to do to call an rpc on an agreeable peer.
-
-get the agreement
------------------
-
-The peer does have to give you the public key. In the future we will provide a registry lookup up services. But for now its up to you to obtain.
-You must also get the agreement.mjs file. They can send it to you on another channel, or you can use the agreeable-ui to fetch it
-
-Agreeable-UI
-
-```
-pear run pear://qrxbzxyqup1egwjnrmp7fcikk31nekecn43xerq65iq3gjxiaury
-```
-or visit the github [agreeable-ui](https://github.com/agree-able/ui) and pear dev it
-
-
-and then paste the public key of the service into the UI. Once it connects, you can download the agreement.mjs file that way from your peer
-
-
-code the caller
----------------
-
-This small example, the client uses the type checking of the agreement. Again this is balanced to use the zod infer into jsdocs, and agreeable check the types
-going to and from the host.
-
-
-client.mjs
-```
-// @ts-check
-import { z, Caller } from '@agree-able/rpc'
-import agreement, { AddTwo, Ping, GenerateNickname } from './agreement.mjs';
+```js
+import { Caller } from '@agree-able/rpc'
+import agreement from './agreement.mjs'
 
 const peerKey = process.argv[2]
 const caller = new Caller(peerKey)
-/** @type{{ 
- *   addTwo: z.infer<AddTwo> 
- *   ping: z.infer<Ping>
- *   generateNickname: z.infer<GenerateNickname>
- * }} */
-// @ts-expect-error
-const { addTwo, ping, generateNickname } = caller.proxy(agreement)
+const { addTwo } = caller.proxy(agreement)
 
-const results = await addTwo({ a: 1, b: 2 })
-console.log(results)
-await ping()
-const nickname = await generateNickname({ first: 'steve', last: 'smith' })
-console.log(nickname)
+// Call remote functions
+const result = await addTwo({ a: 1, b: 2 })
+console.log(result) // 3
 caller.destroy()
-
 ```
 
-Note: The @ts-expect-error annotation is to remove one small compile time error with the destructring the proxy assignment. 
-It is shown here for completeness as a way to have no warnings in your editor. 
+## Running the Example
 
-run the caller
---------------
-
-Now we run the client, passing in the host public key to connect to. 
-
+1. Start the server:
+```bash
+node server.mjs
+# Will print a public key like: 3e32bb2d191316d952ae77439f7ec00a5c4fea8a01953b84d1b4eee36173e1ca
 ```
+
+2. Run the client with the server's public key:
+```bash
 node client.mjs 3e32bb2d191316d952ae77439f7ec00a5c4fea8a01953b84d1b4eee36173e1ca
-3
-silly steve
 ```
+
+## Interactive Testing
+
+Use our UI tool to explore and test your APIs:
+
+```bash
+pear run pear://qrxbzxyqup1egwjnrmp7fcikk31nekecn43xerq65iq3gjxiaury
+```
+
+## Learn More
+
+- [Full Documentation](https://github.com/agree-able/rpc/tree/master/docs)
+- [Example Projects](https://github.com/agree-able/rpc/tree/master/examples)
+- [API Reference](https://github.com/agree-able/rpc/tree/master/docs/api.md)
+
+## Contributing
+
+We welcome contributions! See our [contributing guide](CONTRIBUTING.md) for details.
 
 
