@@ -4,10 +4,10 @@
 
 ## Why Agreeable RPC?
 
-- **Type Safety**: Full TypeScript/JSDoc support with runtime validation
 - **Simple API**: Build P2P services with minimal boilerplate
 - **Developer Experience**: Interactive testing UI included
 - **Trust**: Define clear contracts between peers
+- **Type Safety**: Full TypeScript/JSDoc support with runtime validation
 
 ## Quick Start
 
@@ -92,8 +92,7 @@ pear run pear://qrxbzxyqup1egwjnrmp7fcikk31nekecn43xerq65iq3gjxiaury
 ## Learn More
 
 - [Full Documentation](https://github.com/agree-able/rpc/tree/master/docs)
-- [Example Projects](https://github.com/agree-able/rpc/tree/master/examples)
-- [API Reference](https://github.com/agree-able/rpc/tree/master/docs/api.md)
+- [Example](https://github.com/agree-able/rpc/tree/master/demo)
 
 ## Contributing
 
