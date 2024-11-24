@@ -83,11 +83,7 @@ node client.mjs 3e32bb2d191316d952ae77439f7ec00a5c4fea8a01953b84d1b4eee36173e1ca
 
 ## Interactive Testing
 
-Use our UI tool to explore and test your APIs:
-
-```bash
-pear run pear://qrxbzxyqup1egwjnrmp7fcikk31nekecn43xerq65iq3gjxiaury
-```
+Use our UI tool to explore and test your APIs: [https://github.com/agree-able/ui](https://github.com/agree-able/ui)
 
 ## Learn More
 
