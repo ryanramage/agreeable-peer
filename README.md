@@ -43,23 +43,29 @@ export default {
 ### 3. Implement the Server (server.mjs)
 
 ```js
+// @ts-check
 import { loadAgreement, host } from '@agree-able/rpc'
+import { AddTwo } from './agreement.mjs'
 
-// Implement your functions
+/** @type { z.infer<AddTwo> } addTwo */
 const addTwo = async ({a, b}) => a + b
 
-// Start the server
 host(await loadAgreement('./agreement.mjs', import.meta.url), { addTwo })
 ```
 
 ### 4. Create the Client (client.mjs)
 
 ```js
+// @ts-check
 import { Caller } from '@agree-able/rpc'
-import agreement from './agreement.mjs'
+import agreement, { AddTwo } from './agreement.mjs'
 
 const peerKey = process.argv[2]
 const caller = new Caller(peerKey)
+/** @type{{ 
+ *   addTwo: z.infer<AddTwo> 
+ * }} */
+// @ts-expect-error
 const { addTwo } = caller.proxy(agreement)
 
 // Call remote functions
